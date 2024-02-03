@@ -29,6 +29,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Log API calls
+
 app.use(logger.logAPICall);
 
 // Routes

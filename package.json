@@ -2,13 +2,13 @@
   "name": "React Final Assignment",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "react-scripts test"
-  },
+ "scripts": {
+  "dev": "next dev --experimental-https",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "test": "react-scripts test"
+},
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -25,6 +25,8 @@
     "axios": "^1.2.3",
     "bootstrap": "^5.2.3",
     "cors": "^2.8.5",
+    "express-mongo-session": "^1.0.2",
+    "express-session": "^1.18.0",
     "js-cookie": "^3.0.1",
     "next": "13.2.4",
     "react": "^18.2.0",

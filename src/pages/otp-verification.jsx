@@ -4,30 +4,34 @@ import Layout from "@/Components/Layout";
 import { Form, Input, message } from "antd";
 import axios from "axios";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import PrimaryButton from "../Components/PrimaryButton";
 
-const Login = () => {
+const OTPVerification = () => {
   const router = useRouter();
-
-  const [loginForm] = Form.useForm();
+  const [OTPVerificationForm] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        "http://localhost:3000/auth/OTPVerification",
         values
       );
+
       if (response) {
         console.log("response", response);
-        message.success("OTP sent to your mail. Please check !");
+        message.success("OTPVerification Successful");
+        if (typeof window !== "undefined") {
+          localStorage.setItem("token", response.data?.token);
+          localStorage.setItem("email", values.email);
+          localStorage.setItem("userId", response.data?.userId);
+        }
         setIsLoading(false);
         setTimeout(() => {
-          router.push("/otp-verification");
+          router.push("/");
         }, 1000);
       } else {
         setIsLoading(false);
@@ -46,7 +50,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>OTPVerification</title>
       </Head>
       <Layout>
         <section>
@@ -60,7 +64,7 @@ const Login = () => {
                   <Form
                     onFinish={onFinish}
                     layout={"vertical"}
-                    form={loginForm}
+                    form={OTPVerificationForm}
                   >
                     <div
                       style={{
@@ -71,7 +75,7 @@ const Login = () => {
                       }}
                     >
                       <h1 style={{ marginBottom: "9px", fontSize: "32px" }}>
-                        Please Enter Your Credentials !
+                        Please Verify Your OTP !
                       </h1>
                     </div>
                     <div className="row gx-4 gy-3 align-items-center justify-content-center">
@@ -79,58 +83,32 @@ const Login = () => {
                         <div className="row g-2">
                           <div className="col-md-12">
                             <Form.Item
-                              label="Email"
-                              name="email"
+                              label="OTP"
+                              name="otp"
                               rules={[
                                 {
                                   required: true,
-                                  message: "Please input your Email",
+                                  message: "Please input your OTP",
                                 },
                               ]}
                             >
                               <Input
                                 className="form-control border"
-                                placeholder="Please Enter Your Email"
+                                placeholder="Please Enter Your OTP"
                               />
                             </Form.Item>
                           </div>
-                          <div className="col-md-12">
-                            <Form.Item
-                              label="Password"
-                              name="password"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input your Password",
-                                },
-                              ]}
-                            >
-                              <Input.Password
-                                style={{ height: "44px" }}
-                                className="f border"
-                                placeholder="Please enter your Password"
-                              />
-                            </Form.Item>
-                          </div>
+                        
 
                           <div className="col-md-12">
                             <PrimaryButton
                               width="30%"
                               loading={isLoading}
                               htmlType="submit"
-                              text="Login"
+                              text="OTPVerification"
                             ></PrimaryButton>
                           </div>
-                          <div
-                            style={{ display: "flex", justifyContent: "end" }}
-                          >
-                            {" "}
-                            Dont have an account ?{"  "}
-                            <Link href="/register" style={{ color: "red" }}>
-                              {" "}
-                              Register now!
-                            </Link>
-                          </div>
+                         
                         </div>
                       </div>
                     </div>
@@ -145,4 +123,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default OTPVerification;
